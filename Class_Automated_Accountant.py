@@ -6,45 +6,119 @@ class Automated_Accountant():
         self.long_term_liab = []
         self.equity = []
 
-    def first_balance():
-        global short_term_asset
-        global long_term_assets
-        global short_term_liab
-        global long_term_liab
-        global equity
-
+    def first_balance(self):
         # ASSETS
 
         # SHORT TERM ASSESTS
-        cash = float(input("Short term Assets\nPlease enter the amount of Cash available: "))
-        short_term_asset.append(["Cash", cash])
-        value_of_inventory = float(input("Please enter the Value of Inventory you own: "))
-        short_term_asset.append(["Inventory", value_of_inventory, 0])
-        if value_of_inventory != 0:
-            amount_of_inventory = float(input("Please enter the amount of Inventory you own: "))
-            for searching_for_invent in short_term_asset:
-                if searching_for_invent[0] == "Inventory":
-                    searching_for_invent[2] = amount_of_inventory
-        clients_to_pay = float(input("Please enter the amount of money clients are going to pay you: "))
-        short_term_asset.append(["Clients to pay", clients_to_pay])
+        print("Short Term Assets")
+        while True:
+            try:
+                cash = float(input("Please enter the amount of Cash available: "))
+            except ValueError:
+                print("Please enter a valid amount of Cash")
+                continue
+            else:
+                break
+            self.short_term_asset.append(["Cash", cash])
+            self.cash = cash
+        while True:
+            try:
+                value_of_inventory = float(input("Please enter the Value of Inventory you own: "))
+            except ValueError:
+                print("Please enter a valid value of Inventory")
+                continue
+            else:
+                break
+            self.inventory_value = value_of_inventory
+            self.short_term_asset.append(["Inventory", value_of_inventory, 0])
+            if value_of_inventory != 0:
+                while True:
+                    try:
+                        amount_of_inventory = float(input("Please enter the amount of Inventory you own: "))
+                    except ValueError:
+                        print("Please enter a valid amount of Inventory")
+                        continue
+                    else:
+                        break
+                for searching_for_invent in short_term_asset:
+                    if searching_for_invent[0] == "Inventory":
+                        self.inventory_amount = amount_of_inventory
+                        searching_for_invent[2] = amount_of_inventory
+            while True:
+                try:
+                    clients_to_pay = float(input("Please enter the amount of money clients are going to pay you: "))
+                except ValueError:
+                    print("Please enter a valid amount")
+                    continue
+                else:
+                    break
+            self.clients_to_pay = clients_to_pay
+            self.short_term_asset.append(["Clients to pay", clients_to_pay])
+
 
         # LONG TERM ASSETS
-        permanent_possesion = float(input("Long term Assets\nPlease enter the value of your Permanent Possesion: "))
-        long_term_assets.append(["Permanent Possesion", permanent_possesion])
-        bank_trust = float(input("Please enter your Bank Savings: "))
-        long_term_assets.append(["Bank Trust", bank_trust])
+        print("Long Term Assets")
+        while True:
+            try:
+                permanent_possesion = float(input("Please enter the value of your Permanent Possesion: "))
+            except ValueError:
+                print("Please enter a valid value")
+                continue
+            else:
+                break
+        self.permanent_possesion = permanent_possesion
+        self.long_term_assets.append(["Permanent Possesion", permanent_possesion])
+        while True:
+            try:
+                bank_trust = float(input("Please enter your Bank Savings: "))
+            except ValueError:
+                print("Please enter a valid value")
+                continue
+            else:
+                break
+        self.bank_trust = bank_trust
+        self.long_term_assets.append(["Bank Trust", bank_trust])
 
         # IF USER HAS OTHER ASSETS, APPENDING TO LISTS BASE ON KIND OF ASSET(LONG/SHORT)
-        more_assets = int(input("Please enter the number of other kind of assets you have, if none, press 0: "))
+        while True:
+            try:
+                more_assets = int(input("Please enter the number of other kind of assets you have, if none, press 0: "))
+            except ValueError:
+                print("Please enter a valid number")
+                continue
+            if more_assets >= 2:
+                Yes_or_No = str(input("Are you sure you would want to add that amount of assets? "))
+                if Yes_or_No == "No":
+                    continue
+                if Yes_or_No == "Yes":
+                    break
+                else:
+                    print("Please enter 'Yes' or 'No' after entering number of assets again")
+                    continue
         if more_assets > 0:
             for diverticulum in range(more_assets):
-                value_1 = input("Please enter if its a long term or a short term asset: ")
+                while True:
+                    try:
+                        value_1 = input("Please enter if its a long term or a short term asset: ")
+                    except ValueError:
+                        print("Please enter 'short' or 'long'")
+                        continue
+                    else:
+                        break
                 value_2 = input("Please enter the name of that asset: ")
-                value_3 = float(input("Please enter the value of that asset: "))
+                while True:
+                    try:
+                        value_3 = float(input("Please enter the value of that asset: "))
+                    except ValueError:
+                        print("Please enter a valid value")
+                        continue
+                    else:
+                        break
                 if value_1 == "short term asset" or value_1 == "short":
                     short_term_asset.append([value_2, value_3])
                 if value_1 == "long term asset" or value_1 == "long":
                     long_term_assets.append([value_2, value_3])
+                self.value_2 = value_3
 
         # LIABILITIES
 
