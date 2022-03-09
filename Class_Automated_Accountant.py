@@ -96,6 +96,7 @@ class Automated_Accountant():
                     print("Please enter 'Yes' or 'No' after entering number of assets again")
                     continue
         if more_assets > 0:
+            self.added_assets = []
             for diverticulum in range(more_assets):
                 while True:
                     try:
@@ -115,26 +116,68 @@ class Automated_Accountant():
                     else:
                         break
                 if value_1 == "short term asset" or value_1 == "short":
-                    short_term_asset.append([value_2, value_3])
+                    self.short_term_asset.append([value_2, value_3])
                 if value_1 == "long term asset" or value_1 == "long":
-                    long_term_assets.append([value_2, value_3])
-                self.value_2 = value_3
+                    self.long_term_assets.append([value_2, value_3])
+                self.added_assets.append([value_1,value_2,value_3])
 
         # LIABILITIES
 
         # SHORT TERM LIABILITIES
-        short_term_loans = float(input("Short term Liabilities\nPlease enter your Short Term Loans: "))
-        short_term_liab.append(["Short term loans", short_term_loans])
-        clients_to_be_payed = float(input("Please enter the amount of money you are going to pay to your clients: "))
-        short_term_liab.append(["Clients to be payed", clients_to_be_payed])
-        expense_to_pay = float(input("Please enter the amount of expenses to be payed to suppliers: "))
-        short_term_liab.append(["Expenses to be payed", expense_to_pay])
+        print("Short term Liabilities")
+        while True:
+            try:
+                short_term_loans = float(input("Please enter your Short Term Loans: "))
+            except ValueError:
+                print("Please enter a valid value")
+                continue
+            else:
+                break
+        self.short_term_loan = short_term_loans
+        self.short_term_liab.append(["Short term loans", short_term_loans])
+        while True:
+            try:
+                clients_to_be_payed = float(input("Please enter the amount of money you are going to pay to your clients: "))
+            except ValueError:
+                print("Please enter a valid amount")
+                continue
+            else:
+                break
+        self.client_to_be_payed = clients_to_be_payed
+        self.short_term_liab.append(["Clients to be payed", clients_to_be_payed])
+        while True:
+            try:
+                expense_to_pay = float(input("Please enter the amount of expenses to be payed to suppliers: "))
+            except ValueError:
+                print("Please enter a valid amount")
+                continue
+            else:
+                break
+        self.expense_to_pay = expense_to_pay
+        self.short_term_liab.append(["Expenses to be payed", expense_to_pay])
 
         # LONG TERM LIABILITIES
-        long_term_loans = float(input("Long term Liabilities\nPlease enter your long term loans: "))
-        long_term_liab.append(["Long term loans", long_term_loans])
-        bonds = float(input("Please enter the value of Bonds you owe: "))
-        long_term_liab.append(["Bonds", bonds])
+        print("Long term Liabilities")
+        while True:
+            try:
+                long_term_loans = float(input("Please enter your long term loans: "))
+            except ValueError:
+                print("Please enter a valid value")
+                continue
+            else:
+                break
+        self.long_term_loans = long_term_loans
+        self.long_term_liab.append(["Long term loans", long_term_loans])
+        while True:
+            try:
+                bonds = float(input("Please enter the value of Bonds you owe: "))
+            except ValueError:
+                print("Please enter a valid value")
+                continue
+            else:
+                break
+        self.bonds = bonds
+        self.long_term_liab.append(["Bonds", bonds])
 
         # IF USER HAS OTHER LIABILITIES, APPENDING TO LISTS BASE ON KIND OF LIABILITY(LONG/SHORT)
         more_liab = int(input("Please enter the number of other kind of liabilities you have, if none, press 0: "))
