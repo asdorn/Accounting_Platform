@@ -106,7 +106,7 @@ class Automated_Accountant():
                         continue
                     else:
                         break
-                value_2 = input("Please enter the name of that asset: ")
+                value_2 = str(input("Please enter the name of that asset: "))
                 while True:
                     try:
                         value_3 = float(input("Please enter the value of that asset: "))
@@ -180,28 +180,97 @@ class Automated_Accountant():
         self.long_term_liab.append(["Bonds", bonds])
 
         # IF USER HAS OTHER LIABILITIES, APPENDING TO LISTS BASE ON KIND OF LIABILITY(LONG/SHORT)
-        more_liab = int(input("Please enter the number of other kind of liabilities you have, if none, press 0: "))
+        while True:
+            try:
+                more_liab = int(input("Please enter the number of other kind of liabilities you have, if none, press 0: "))
+            except ValueError:
+                print("Please enter a valid number")
+                continue
+            if more_liab >= 2:
+                Yes_or_No = str(input("Are you sure you would want to add that amount of liabilities? "))
+                if Yes_or_No == "No":
+                    continue
+                if Yes_or_No == "Yes":
+                    break
+                else:
+                    print("Please enter 'Yes' or 'No' after entering number of liabilities again")
+                    continue
         if more_liab > 0:
-            for diverticulum in range(more_liab):
-                value_4 = input("Please enter if its a long term or a short term liability: ")
-                value_5 = input("Please enter the name of that liability: ")
-                value_6 = float(input("Please enter the value of that liability: "))
+            self.added_liab = []
+            for diverticulum_2 in range(more_liab):
+                while True:
+                    try:
+                        value_4 = input("Please enter if its a long term or a short term liability: ")
+                    except ValueError:
+                        print("Please enter 'short' or 'long'")
+                        continue
+                    else:
+                        break
+                value_5 = str(input("Please enter the name of that liability: "))
+                while True:
+                    try:
+                        value_6 = float(input("Please enter the value of that liability: "))
+                    except ValueError:
+                        print("Please enter a valid value")
+                        continue
+                    else:
+                        break
                 if value_4 == "short term liability" or value_4 == "short":
-                    short_term_liab.append([value_5, value_6])
-                if value_4 == "long term liability" or value_4 == "long":
-                    long_term_liab.append([value_5, value_6])
+                    self.short_term_liab.append([value_5, value_6])
+                if value_4 == "long term asset" or value_4 == "long":
+                    self.long_term_liab.append([value_5, value_6])
+                self.added_liab.append([value_4,value_5,value_6])
 
         # EQUITY
-        shares_value_plus_premia = float(input("Equity\nPlease enter your company share value and premia: "))
-        equity.append(["Shares and Premia", shares_value_plus_premia])
-        surpluses = float(input("Please enter the amount of surpluses that you have: "))
-        equity.append(["Surpluses", surpluses])
+        print("Equity")
+        while True:
+            try:
+                shares_value_plus_premia = float(input("Please enter your company share value and premia: "))
+            except ValueError:
+                print("Please enter a valid value")
+                continue
+            else:
+                break
+        self.shares_and_premia = shares_value_plus_premia
+        self.equity.append(["Shares and Premia", shares_value_plus_premia])
+        while True:
+            try:
+                surpluses = float(input("Please enter the amount of surpluses that you have: "))
+            except ValueError:
+                print("Please enter a valid amount")
+                continue
+            else:
+                break
+        self.surpluses = surpluses
+        self.equity.append(["Surpluses", surpluses])
 
         # IF USER HAS MORE KINDS OF EQUITY,APPENDING TO EQUITY LIST
-        more_equity = int(input("Please enter the number of other kind of equities that you have, if none, press 0: "))
+        while True:
+            try:
+                more_equity = int(input("Please enter the number of other kind of equities that you have, if none, press 0: "))
+            except ValueError:
+                print("Please enter a valid number")
+                continue
+            if more_equity >= 2:
+                Yes_or_No = str(input("Are you sure you would want to add that amount of equities? "))
+                if Yes_or_No == "No":
+                    continue
+                if Yes_or_No == "Yes":
+                    break
+                else:
+                    print("Please enter 'Yes' or 'No' after entering number of equities again")
+                    continue
         if more_equity > 0:
-            for diverticulum in range(more_equity):
-                value_7 = input("Please enter the name of that equity: ")
-                value_8 = float(input("Please enter the value of that equity: "))
-                equity.append([value_7, value_8])
-        return (short_term_asset, long_term_assets, short_term_liab, long_term_liab, equity)
+            self.added_equity = []
+            for diverticulum_3 in range(more_equity):
+                value_7 = str(input("Please enter the name of that equity: "))
+                while True:
+                    try:
+                        value_8 = float(input("Please enter the value of that equity: "))
+                    except ValueError:
+                        print("Please enter a valid value")
+                        continue
+                    else:
+                        break
+                self.added_equity.append([value_7, value_8])
+                self.equity.append([value_7, value_8])
