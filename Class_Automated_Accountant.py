@@ -291,6 +291,65 @@ class Automated_Accountant():
                 self.added_equity.append([value_7, value_8])
                 self.equity.append([value_7, value_8])
 
+    def show_balance(self):
+        print("\nShort Term Assets")
+        # total_short_term_assets = 0
+        for index_short_assets in self.short_term_asset:
+            # if index_short_assets[1] == 0:
+            #     continue
+            # else:
+            print(index_short_assets[0], "\t", index_short_assets[1])
+        #     total_short_term_assets += index_short_assets[1]
+        # assets_after_year += total_short_term_assets
+        print("Short term Assets total sum:\t", self.short_assets_value_sum)
+        print("\nLong term Assets")
+        # total_long_term_assets = 0
+        for index_long_assets in self.long_term_assets:
+            # if index_long_assets[1] == 0:
+            #     continue
+            # else:
+            print(index_long_assets[0], "\t", index_long_assets[1])
+            # total_long_term_assets += index_long_assets[1]
+        # assets_after_year += total_long_term_assets
+        print("Long term Assets total sum:\t", self.long_assets_value_sum)
+        print("Assets total sum:\t", self.assets_total_value_sum)
+        print("\nShort term Liabilities")
+        # total_short_term_liab = 0
+        for index_short_liab in self.short_term_liab:
+            # if index_short_liab[1] == 0:
+            #     continue
+            # else:
+            print(index_short_liab[0], "\t", index_short_liab[1])
+            # total_short_term_liab += index_short_liab[1]
+        print("Short term Liabilities total sum:\t", self.short_liab_value_sum)
+        print("\nLong term liabilities")
+        # total_long_term_liab = 0
+        for index_long_liab in self.long_term_liab:
+            # if index_long_liab[1] == 0:
+            #     continue
+            # else:
+            print(index_long_liab[0], "\t", index_long_liab[1])
+            # total_long_term_liab += index_long_liab[1]
+        print("Long term Liabilities total sum:\t", self.long_liab_value_sum)
+        print("\nEquity")
+        # total_equity = 0
+        for index_equity in self.equity:
+            # if index_equity[1] == 0:
+            #     continue
+            # else:
+            print(index_equity[0], "\t", index_equity[1])
+            # total_equity += index_equity[1]
+        print("Equity total sum:\t", self.equity_total_value_sum)
+        net_profit = float(self.profit_loss())
+        print("\nStatments in Equity")
+        print("Issue:\t", self.issue())
+        print("Net Profit:\t", self.net_profit)
+        print("Dividends distributed:\t", self.dividend)
+        print("Equity end of year:\t", self.equity_total_value_sum + self.issue() + net_profit - self.dividend)
+        print("\nFinancial ratio")
+        self.finance_proportion()
+        self.transactions()
+
     def profit_loss(self):
         print("Profit and Loss Report:")
         print("Revenue:\t", self.total_sales)
@@ -302,20 +361,8 @@ class Automated_Accountant():
         print("Operating Expenses:\t", self.other_payments)
         self.operating_expenses = self.other_payments
         print("Operating and Net Profit:\t", (self.total_sales - self.sales_cost - self.other_payments))
-        self.operating_and_net_profit = self.total_sales - self.sales_cost - self.other_payments
+        self.net_profit = self.total_sales - self.sales_cost - self.other_payments
         return (self.total_sales - self.sales_cost - self.other_payments)
-
-    def dividends_distribution(self):
-        self.dividend = float(input("How much Dividends Did you distributed to your Share Holders?"))
-        for looking_for_cash in self.short_term_asset:
-            if looking_for_cash[0] == "Cash":
-                self.cash -= self.dividend
-                looking_for_cash[1] = looking_for_cash[1] - self.dividend
-        for looking_for_surpluses in self.equity:
-            if looking_for_surpluses[0] == "Surpluses":
-                self.surpluses -= self.dividend
-                looking_for_surpluses[1] = looking_for_surpluses[1] - self.dividend
-        return self.dividend
 
     def transactions(self):
         print("Assets")
@@ -346,6 +393,60 @@ class Automated_Accountant():
             print("Sales cost\t", self.sales_cost_transaction)
         if len(self.other_payments_transaction) > 0:
             print("Other payments\t", self.other_payments_transaction)
+
+    def finance_proportion(self):
+        self.short_assets_value_sum = 0
+        self.long_assets_value_sum = 0
+        self.assets_total_value_sum = 0
+        self.short_liab_value_sum = 0
+        self.long_liab_value_sum = 0
+        self.liab_total_value_sum = 0
+        self.equity_total_value_sum = 0
+
+        for counting_sum_short_asset in self.short_term_asset:
+            self.short_assets_value_sum += counting_sum_short_asset[1]
+            self.assets_total_value_sum += counting_sum_short_asset[1]
+        for counting_sum_long_asset in self.long_term_assets:
+            self.long_assets_value_sum += counting_sum_long_asset[1]
+            self.assets_total_value_sum += counting_sum_long_asset[1]
+        for counting_sum_short_liab in self.short_term_liab:
+            self.short_liab_value_sum += counting_sum_short_liab[1]
+            self.liab_total_value_sum += counting_sum_short_liab[1]
+        for counting_sum_long_liab in self.long_term_liab:
+            self.long_liab_value_sum += counting_sum_long_liab[1]
+            self.liab_total_value_sum += counting_sum_long_liab[1]
+        for counting_sum_equity in self.equity:
+            self.equity_total_value_sum += counting_sum_equity[1]
+        if self.short_liab_value_sum == 0:
+            self.current_ratio = None
+            print("Current ratio is None")
+        else:
+            self.current_ratio = (self.short_assets_value_sum / self.short_liab_value_sum)
+            print("Curent Ratio is", self.current_ratio)
+        if self.liab_total_value_sum == 0:
+            self.assets_to_liab_ratio = None
+            print("Asset to Liabilities ratio is None")
+        else:
+            self.assets_to_liab_ratio = (self.assets_total_value_sum / self.liab_total_value_sum)
+            print("Assets to liabilities ratio is", self.assets_to_liab_ratio)
+        if self.equity_total_value_sum == 0:
+            self.liab_to_equity_ratio = None
+            print("Liabilities to Equity ratio is None")
+        else:
+            self.liab_to_equity_ratio = (self.liab_total_value_summ / self.equity_total_value_sum_total_sum)
+            print("liabilities to Equity ratio is", self.liab_to_equity_ratio)
+
+    def dividends_distribution(self):
+        self.dividend = float(input("How much Dividends Did you distributed to your Share Holders?"))
+        for looking_for_cash in self.short_term_asset:
+            if looking_for_cash[0] == "Cash":
+                self.cash -= self.dividend
+                looking_for_cash[1] = looking_for_cash[1] - self.dividend
+        for looking_for_surpluses in self.equity:
+            if looking_for_surpluses[0] == "Surpluses":
+                self.surpluses -= self.dividend
+                looking_for_surpluses[1] = looking_for_surpluses[1] - self.dividend
+        return self.dividend
 
     def buying_inventory(self):
         while True:
@@ -592,3 +693,108 @@ class Automated_Accountant():
         self.cash_transaction.append(["Up", possesion_value])
         self.permanent_possesion_transaction.append(["Down", possesion_value])
 
+    def clients_paying_back(self):
+        while True:
+            try:
+                amount_payed_back = float(input("Please enter the amount of cash your clients payed you back: "))
+            except ValueError:
+                print("Please enter a valid amount")
+                continue
+            else:
+                break
+        for looking_for_clients in self.short_term_asset:
+            if looking_for_clients[0] == "Clients to pay":
+                self.clients_to_pay -= amount_payed_back
+                looking_for_clients[1] = looking_for_clients[1] - amount_payed_back
+        for looking_for_cash in self.short_term_asset:
+            if looking_for_cash[0] == "Cash":
+                self.cash += amount_payed_back
+                looking_for_cash[1] = looking_for_cash[1] + amount_payed_back
+
+        self.clients_to_pay_transaction.append(["Down", amount_payed_back])
+        self.cash_transaction.append(("Up", amount_payed_back))
+
+    def returning_expenses_to_pay(self):
+        while True:
+            try:
+                how_much_to_return = float(input("Please enter the amount that you are returning: "))
+            except ValueError:
+                print("Please enter a valid amount")
+                continue
+            else:
+                break
+        for looking_for_cash in self.short_term_asset:
+            if looking_for_cash[0] == "Cash":
+                self.cash -= how_much_to_return
+                looking_for_cash[1] = looking_for_cash[1] - how_much_to_return
+        for looking_for_expenses_to_be_payed in self.short_term_liab:
+            if looking_for_expenses_to_be_payed[0] == "Expenses to be payed":
+                self.expense_to_pay -= how_much_to_return
+                looking_for_expenses_to_be_payed[1] = looking_for_expenses_to_be_payed[1] - how_much_to_return
+
+        self.cash_transaction.append(["Down", how_much_to_return])
+        self.expense_to_pay_transaction.append(["Down", how_much_to_return])
+
+    def create_new_inventory(self):
+        while True:
+            try:
+                used_inventory = float(input("Please enter the amount of Inventory that was used to create the new Inventory: "))
+            except ValueError:
+                print("Please enter a valid amount")
+                continue
+            else:
+                break
+        while True:
+            try:
+                new_inventory_amount = float(input("Please enter the amount of Inventory that was created: "))
+            except ValueError:
+                print("Please enter a valid amount")
+                continue
+            else:
+                break
+        while True:
+            try:
+                salary_per_unit = float(input("Please enter the price of creating each unit: "))
+            except ValueError:
+                print("Please enter a valid price")
+                continue
+            else:
+                break
+        while True:
+            paying_now_or_future = input("Did you pay the whole sum now? enter 'Yes' or 'No': ")
+            if paying_now_or_future == "No":
+                break
+            if paying_now_or_future == "True":
+                break
+            print("Please enter 'Yes' or 'No'")
+            continue
+        if paying_now_or_future == "No":
+            while True:
+                try:
+                    how_many_payed_now = float(input("Please enter the amount of units that was payed on now: "))
+                except ValueError:
+                    print("Please enter a valid amount")
+                    continue
+                else:
+                    break
+        for looking_for_inventory_1 in self.short_term_asset:
+            if looking_for_inventory_1[0] == "Inventory":
+                self.inventory_value += (new_inventory_amount * salary_per_unit)
+                looking_for_inventory_1[1] = looking_for_inventory_1[1] + (new_inventory_amount * salary_per_unit)
+                self.inventory_amount = self.inventory_amount - used_inventory + new_inventory_amount
+                looking_for_inventory_1[2] = looking_for_inventory_1[2] - used_inventory + new_inventory_amount
+            for looking_for_cash in self.short_term_asset:
+                if looking_for_cash[0] == "Cash":
+                    if paying_now_or_future == "Yes":
+                        self.cash -= (new_inventory_amount * salary_per_unit)
+                        looking_for_cash[1] = looking_for_cash[1] - (new_inventory_amount * salary_per_unit)
+                        self.cash_transaction.append(["Down", new_inventory_amount * salary_per_unit])
+                    elif paying_now_or_future == "No":
+                        self.cash -= (how_many_payed_now * salary_per_unit)
+                        looking_for_cash[1] = looking_for_cash[1] - (how_many_payed_now * salary_per_unit)
+                        self.expense_to_pay += (new_inventory_amount * salary_per_unit) - (how_many_payed_now * salary_per_unit)
+                        self.short_term_liab.append(["Expenses to be payed", (
+                                    (new_inventory_amount * salary_per_unit) - how_many_payed_now * salary_per_unit)])
+                        self.cash_transaction.append(["Down", (new_inventory_amount * salary_per_unit)])
+                        self.expense_to_pay_transaction.append(
+                            ["Up", (new_inventory_amount * salary_per_unit) - (how_many_payed_now * salary_per_unit)])
