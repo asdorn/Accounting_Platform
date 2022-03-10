@@ -5,8 +5,24 @@ class Automated_Accountant():
         self.short_term_liab = []
         self.long_term_liab = []
         self.equity = []
+        self.total_sales = 0
+        self.sales_cost = 0
+        self.other_payments = 0
+        self.dividend = 0
+        self.cash_transaction = []
+        self.inventory_transaction = []
+        self.permanent_possesion_transaction = []
+        self.short_loan_transaction = []
+        self.long_loan_transaction = []
+        self.shares_and_premia_transaction = []
+        self.surpluses_transaction = []
+        self.sales_transaction = []
+        self.sales_cost_transaction = []
+        self.other_payments_transaction = []
+        self.clients_to_pay_transaction = []
+        self.expense_to_pay_transaction = []
 
-    def first_balance(self):
+    def create_balance(self):
         # ASSETS
 
         # SHORT TERM ASSESTS
@@ -274,3 +290,305 @@ class Automated_Accountant():
                         break
                 self.added_equity.append([value_7, value_8])
                 self.equity.append([value_7, value_8])
+
+    def profit_loss(self):
+        print("Profit and Loss Report:")
+        print("Revenue:\t", self.total_sales)
+        self.revenue = self.total_sales
+        print("Expense on Revenue:\t", self.sales_cost)
+        self.expense_on_revenue = self.sales_cost
+        print("Gross Profit:\t", (self.total_sales - self.sales_cost))
+        self.gross_profit = self.total_sales - self.sales_cost
+        print("Operating Expenses:\t", self.other_payments)
+        self.operating_expenses = self.other_payments
+        print("Operating and Net Profit:\t", (self.total_sales - self.sales_cost - self.other_payments))
+        self.operating_and_net_profit = self.total_sales - self.sales_cost - self.other_payments
+        return (self.total_sales - self.sales_cost - self.other_payments)
+
+    def dividends_distribution(self):
+        self.dividend = float(input("How much Dividends Did you distributed to your Share Holders?"))
+        for looking_for_cash in self.short_term_asset:
+            if looking_for_cash[0] == "Cash":
+                self.cash -= self.dividend
+                looking_for_cash[1] = looking_for_cash[1] - self.dividend
+        for looking_for_surpluses in self.equity:
+            if looking_for_surpluses[0] == "Surpluses":
+                self.surpluses -= self.dividend
+                looking_for_surpluses[1] = looking_for_surpluses[1] - self.dividend
+        return self.dividend
+
+    def transactions(self):
+        print("Assets")
+        if len(self.cash_transaction) > 0:
+            print("Cash\t", self.cash_transaction)
+        if len(self.inventory_transaction) > 0:
+            print("Stock\t", self.inventory_transaction)
+        if len(self.clients_to_pay_transaction) > 0:
+            print("Clients to pay\t", self.clients_to_pay_transaction)
+        if len(self.permanent_possesion_transaction) > 0:
+            print("Permanent Possesion\t", self.permanent_possesion_transaction)
+        print("\nLiabilities")
+        if len(self.short_loan_transaction) > 0:
+            print("Short term loan\t", self.short_loan_transaction)
+        if len(self.long_loan_transaction) > 0:
+            print("Long term loan\t", self.long_loan_transaction)
+        if len(self.expense_to_pay_transaction) > 0:
+            print("Expense to be payed\t", self.expense_to_pay_transaction)
+        print("\nEquity")
+        if len(self.shares_and_premia_transaction) > 0:
+            print("Shares and Premia\t", self.shares_and_premia_transaction)
+        if len(self.surpluses_transaction) > 0:
+            print("Surpluses\t", self.surpluses_transaction)
+        print("\nProfit and Loss")
+        if len(self.sales_transaction) > 0:
+            print("Sales\t", self.sales_transaction)
+        if len(self.sales_cost_transaction) > 0:
+            print("Sales cost\t", self.sales_cost_transaction)
+        if len(self.other_payments_transaction) > 0:
+            print("Other payments\t", self.other_payments_transaction)
+
+    def buying_inventory(self):
+        while True:
+            try:
+                value_of_inventory = float(input("Please enter the value of Inventory that was bought: "))
+            except ValueError:
+                print("Please enter a valid value")
+                continue
+            else:
+                break
+        self.value_of_bought_inventory = value_of_inventory
+        while True:
+            try:
+                amount_of_inventory = float(input("Please enter the amount of the Inventory was bought: "))
+            except ValueError:
+                print("Please enter a valid amount")
+                continue
+            else:
+                break
+        self.amount_of_bought_inventort = amount_of_inventory
+        for looking_for_cash in self.short_term_asset:
+            if looking_for_cash[0] == "Cash":
+                self.cash -= value_of_inventory
+                looking_for_cash[1] = looking_for_cash[1] - value_of_inventory
+        for looking_for_inventory in self.short_term_asset:
+            if looking_for_inventory[0] == "Inventory":
+                self.inventory_value += value_of_inventory
+                looking_for_inventory[1] = looking_for_inventory[1] + value_of_inventory
+                self.inventory_amount += amount_of_inventory
+                looking_for_inventory[2] = looking_for_inventory[2] + amount_of_inventory
+        self.cash_transaction.append(["Down", value_of_inventory])
+        self.inventory_transaction.append(["Up", value_of_inventory, amount_of_inventory])
+
+    def selling_inventory(self):
+        last_inventory_buy_value = 1
+        last_inventory_buy_amount = 1
+        while True:
+            try:
+                amount_of_inventory = float(input("Please enter the amount of Inventory that was sold: "))
+            except ValueError:
+                print("Please enter a valid amount")
+                continue
+            else:
+                break
+        while True:
+            try:
+                price_of_sell = float(input("Please enter the price per unit that was sold: "))
+            except ValueError:
+                print("Please enter a valid price")
+                continue
+            else:
+                break
+        while True:
+            will_clients_pay_now = str(input("Will you be payed in full now? enter 'Yes' or 'No': "))
+            if will_clients_pay_now == "No":
+                break
+            if will_clients_pay_now == "Yes":
+                break
+            else:
+                print("Please enter 'Yes' or 'No'")
+                continue
+        if will_clients_pay_now == "No":
+            while True:
+                try:
+                    paying_later = float(input("Please enter the amount of inventory units that you will be payed on later: "))
+                except ValueError:
+                    print("Please enter a valid amount")
+                    continue
+                else:
+                    break
+        else:
+            paying_later = 0
+
+        for looking_for_inventory in self.short_term_asset:
+            if looking_for_inventory[0] == "Inventory":
+                if looking_for_inventory[1] != None:
+                    self.inventory_value = ((amount_of_inventory / looking_for_inventory[2]) * looking_for_inventory[1])
+                    value_of_inventory = ((amount_of_inventory / looking_for_inventory[2]) * looking_for_inventory[1])
+        for number_of_cycles in range(1, len(self.inventory_transaction) + 1):
+            if len(self.inventory_transaction) > 0:
+                if self.inventory_transaction[len(self.inventory_transaction) - number_of_cycles][0] == "Up":
+                    last_inventory_buy_value = self.inventory_transaction[len(self.inventory_transaction) - number_of_cycles][1]
+                    last_inventory_buy_amount = self.inventory_transaction[len(self.inventory_transaction) - number_of_cycles][2]
+                    break
+        if last_inventory_buy_value > 1 and last_inventory_buy_amount > 1:
+            self.inventory_value = ((amount_of_inventory / last_inventory_buy_amount) * last_inventory_buy_value)
+            value_of_inventory = ((amount_of_inventory / last_inventory_buy_amount) * last_inventory_buy_value)
+        sale_price = amount_of_inventory * price_of_sell
+
+        for looking_for_cash in self.short_term_asset:
+            if looking_for_cash[0] == "Cash":
+                if paying_later > 0:
+                    self.cash = self.cash + sale_price - (paying_later * price_of_sell)
+                    looking_for_cash[1] = looking_for_cash[1] + sale_price - (paying_later * price_of_sell)
+                else:
+                    self.cash += sale_price
+                    looking_for_cash[1] = looking_for_cash[1] + sale_price
+        if paying_later > 0:
+            for looking_for_clients in self.short_term_asset:
+                if looking_for_clients[0] == "Clients to pay":
+                    self.clients_to_pay += (paying_later * price_of_sell)
+                    looking_for_clients[1] = looking_for_clients[1] + (paying_later * price_of_sell)
+        for looking_for_stock in self.short_term_asset:
+            if looking_for_stock[0] == "Inventory":
+                self.inventory_value -= value_of_inventory
+                looking_for_stock[1] = looking_for_stock[1] - value_of_inventory
+        for looking_for_surpluses in self.equity:
+            if looking_for_surpluses[0] == "Surpluses":
+                self.surpluses += sale_price
+                looking_for_surpluses[1] = looking_for_surpluses[1] + sale_price
+        for looking_for_surpluses_2 in self.equity:
+            if looking_for_surpluses_2[0] == "Surpluses":
+                self.surpluses -= value_of_inventory
+                looking_for_surpluses_2[1] = looking_for_surpluses_2[1] - value_of_inventory
+
+        self.cash_transaction.append(["Up", sale_price - (paying_later * price_of_sell)])
+        self.inventory_transaction.append(["Down", value_of_inventory, amount_of_inventory])
+        self.surpluses_transaction.append(["Up", (sale_price)])
+        self.surpluses_transaction.append(["Down", value_of_inventory])
+        self.sales_cost_transaction.append(["Up", value_of_inventory])
+        self.sales_transaction.append(["Up", sale_price])
+        if paying_later > 0:
+            self.clients_to_pay_transaction.append(["Up", (paying_later * price_of_sell)])
+        self.total_sales += sale_price
+        self.sales_cost += value_of_inventory
+
+    def take_a_loan(self):
+        while True:
+            try:
+                value_of_loan = float(input("Please enter the value of loan that you took: "))
+            except ValueError:
+                print("Please enter a valid value")
+                continue
+            else:
+                break
+        while True:
+            long_or_short = input("Please enter if it was a 'long' term or 'short' term loan: ")
+            if long_or_short == "short":
+                break
+            elif long_or_short == "long":
+                break
+            else:
+                continue
+        if long_or_short == "short":
+            for looking_for_short_loan in self.short_term_liab:
+                if looking_for_short_loan[0] == "Short term loans":
+                    self.short_term_loan += value_of_loan
+                    looking_for_short_loan[1] = looking_for_short_loan[1] + value_of_loan
+            self.short_loan_transaction.append(["Up", value_of_loan])
+        if long_or_short == "long":
+            for looking_for_long_loan in self.long_term_liab:
+                if looking_for_long_loan[0] == "Long term loans":
+                    self.long_term_loans += value_of_loan
+                    looking_for_long_loan[1] = looking_for_long_loan[1] + value_of_loan
+            self.long_loan_transaction.append(["Up", value_of_loan])
+        for looking_for_cash in self.short_term_asset:
+            if looking_for_cash[0] == "Cash":
+                self.cash += value_of_loan
+                looking_for_cash[1] = looking_for_cash[1] + value_of_loan
+        self.cash_transaction.append(["Up", value_of_loan])
+
+    def returning_a_loan(self):
+        while True:
+            try:
+                value_of_loan = float(input("Please enter the value of loan that you are returning: "))
+            except ValueError:
+                print("Please enter a valid value")
+                continue
+            else:
+                break
+        for looking_for_short_loan in self.short_term_liab:
+            if looking_for_short_loan[0] == "Short term loans":
+                self.short_term_loan -= value_of_loan
+                looking_for_short_loan[1] = looking_for_short_loan[1] - value_of_loan
+        for looking_for_cash in self.short_term_asset:
+            if looking_for_cash[0] == "Cash":
+                self.cash -= value_of_loan
+                looking_for_cash[1] = looking_for_cash[1] - value_of_loan
+
+        self.cash_transaction.append(["Down", value_of_loan])
+        self.short_loan_transaction.append(["Down", value_of_loan])
+
+    def issue(self):
+        while True:
+            try:
+                value_of_issue = float(input("Please enter the value of the issue: "))
+            except ValueError:
+                print("Please enter a valid value")
+                continue
+            else:
+                break
+        for looking_for_shares in self.equity:
+            if looking_for_shares[0] == "Shares and Premia":
+                self.shares_and_premia += value_of_issue
+                looking_for_shares[1] = looking_for_shares[1] + value_of_issue
+        for looking_for_cash in self.short_term_asset:
+            if looking_for_cash[0] == "Cash":
+                self.cash += value_of_issue
+                looking_for_cash[1] = looking_for_cash[1] + value_of_issue
+
+        self.cash_transaction.append(["Up",value_of_issue])
+        self.shares_and_premia_transaction.append(["Up",value_of_issue])
+        return value_of_issue
+
+    def buying_permanent_possesion(self):
+        while True:
+            try:
+                possesion_value = float(input("Please enter the value of the permanent possesion that you bought: "))
+            except ValueError:
+                print("Please enter a valid value")
+                continue
+            else:
+                break
+        for looking_for_cash in self.short_term_asset:
+            if looking_for_cash[0] == "Cash":
+                self.cash -= possesion_value
+                looking_for_cash[1] = looking_for_cash[1] - possesion_value
+        for looking_for_permanent_possesion in self.long_term_assets:
+            if looking_for_permanent_possesion[0] == "Permanent Possesion":
+                self.permanent_possesion += possesion_value
+                looking_for_permanent_possesion[1] = looking_for_permanent_possesion[1] + possesion_value
+
+        self.cash_transaction.append(["Down", possesion_value])
+        self.permanent_possesion_transaction.append(["Up", possesion_value])
+
+    def selling_permanent_possesion(self):
+        while True:
+            try:
+                possesion_value = float(input("Please enter the value of the permanent possesion that you sold: "))
+            except ValueError:
+                print("Please enter a valid value")
+                continue
+            else:
+                break
+        for looking_for_cash in self.short_term_asset:
+            if looking_for_cash[0] == "Cash":
+                self.cash += possesion_value
+                looking_for_cash[1] = looking_for_cash[1] + possesion_value
+        for looking_for_permanent_possesion in self.long_term_assets:
+            if looking_for_permanent_possesion[0] == "Permanent Possesion":
+                self.permanent_possesion -= possesion_value
+                looking_for_permanent_possesion[1] = looking_for_permanent_possesion[1] - possesion_value
+
+        self.cash_transaction.append(["Up", possesion_value])
+        self.permanent_possesion_transaction.append(["Down", possesion_value])
+
