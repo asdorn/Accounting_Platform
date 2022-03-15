@@ -11,4 +11,4 @@ The user is be able to create his own company balance, and use accounting method
 9.	dividends distribution, the value of the dividend would be removed from cash in the short term assets and surplusses in equity.
 10.	clients paying back, the clients can return a debt, the value will be added to cash in short term assets, and the value will be removed from clients to pay sections in short term assets.
 11.	returning expenses to pay, the user can return expenses that he postponed, the value will be removed from cash in short term assets, and removed from the expenses to be payed section in short term liabillities.
-**this project is a work in progress, the methods are built, and some more work is needed in the databases part, in order to finish the project.**
+*this project is a work in progress, the methods are built, and some more work is needed in the databases part, in order to finish the project.*
