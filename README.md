@@ -1,4 +1,4 @@
-# Automated_Accounting_Class
+# Accounting_Platform
 The user is able to create his own company balance, and use accounting methods which will move the data between different sectors of the balance, just like an accountant would do.
 *this project is a work in progress, the methods are built, and some more work is needed in the databases part, in order to finish the project.*
 1.	buy inventory, which can be divided to amount of inventory by value of each one, the cash spent will be removed from the cash section in short term assets and amount and value will be added to short term assets.
